@@ -8,68 +8,56 @@ import { nanoid } from "nanoid";
 
 import AudioCard from "@/components/common/AudioCard";
 import Banner from "@/components/common/Banner";
+import generateAudioCards from "@/components/common/generateAudioCards.jsx";
 
-const items = [
-  {
-    title: "Al-Fatiha - ٱلْفَاتِحَة",
-    content: 1,
-  },
-  {
-    title: "Al-Baraqah - ٱلْبَقَرَة",
-    content: 48,
-  },
-  {
-    title: "Ali'Imran - آلِ عِمْرَان",
-    content: 27,
-  },
-  {
-    title: "An-Nisa - ٱلنِّسَاء",
-    content: 30,
-  },
-  {
-    title: "Al-Ma'idah - ٱلْمَائِدَة",
-    content: 21,
-  },
-  {
-    title: "Al-An'am - ٱلْأَنْعَام",
-    content: 22,
-  },
-  {
-    title: "Al-A'raf - ٱلْأَعْرَاف",
-    content: 24,
-  },
-  {
-    title: "Al-Anfal - ٱلْأَنْفَال",
-    content: 10,
-  },
-];
+import objectList from "@/data/tafsirData.json";
+import titles from "@/data/chapterNamesTafsir.json";
 
-function Placeholder({ items }) {
-  function mapContent(title, content) {
-    let arry = [];
-    for (let i = 1; i <= content; i++) {
-      let formatedTitle = `Surah ${title} - part ${i}`;
-      arry.push(
-        <li key={nanoid()} className="my-6 mx-2">
-          <AudioCard key={nanoid()} title={formatedTitle} />
-        </li>
-      );
-    }
-    return arry;
+const chapterIndex = [];
+for (const obj of objectList) {
+  const filename = obj.fileName.split(",");
+  const part = filename[0].split(".");
+  if (!chapterIndex.includes(part[0])) {
+    chapterIndex.push(part[0]);
   }
+}
+console.log("Chapter Index:" + chapterIndex);
+
+/*let formatedTitle = `Surah ${title} - part ${i}`;
+    arry.push(
+      <li key={nanoid()} className="my-6 mx-2">
+        <AudioCard key={nanoid()} title={formatedTitle} />
+      </li>
+    )*/
+
+function Content({ chapterIndex, audioObjects, titles }) {
+  const sortedObjects = chapterIndex.reduce(
+    (acc, curr) => ({ ...acc, [curr.toString()]: [] }),
+    {}
+  );
+  for (const obj of audioObjects) {
+    const list = obj.fileName.split(",");
+    const part = list[0].split(".");
+    sortedObjects[part[0]].push(obj);
+  }
+
+  const content = chapterIndex.map((i) => {
+    const results = (
+      <AccordionItem key={nanoid()} value={`surah${i}`}>
+        <AccordionTrigger className="text-lg font-normal">
+          {`${i}. Surah ${titles[i - 1]}`}
+        </AccordionTrigger>
+        <AccordionContent>
+          {generateAudioCards(sortedObjects[i.toString()], titles, 1)}
+        </AccordionContent>
+      </AccordionItem>
+    );
+    return results;
+  });
   return (
     <div>
       <Accordion type="single" collapsible className="mx-4 my-4 ">
-        {items.map(({ title, content }, i) => (
-          <AccordionItem key={nanoid()} value={`surah-${i}`}>
-            <AccordionTrigger className="text-lg font-normal">{`${
-              i + 1
-            }. Surah ${title}`}</AccordionTrigger>
-            <AccordionContent>
-              <ul>{mapContent(title, content)}</ul>
-            </AccordionContent>
-          </AccordionItem>
-        ))}
+        <ul className="list-none">{content}</ul>
       </Accordion>
     </div>
   );
@@ -84,7 +72,11 @@ function Tafsir() {
           Surah List
         </h2>
 
-        <Placeholder items={items} />
+        <Content
+          chapterIndex={chapterIndex}
+          audioObjects={objectList}
+          titles={titles}
+        />
       </div>
     </div>
   );

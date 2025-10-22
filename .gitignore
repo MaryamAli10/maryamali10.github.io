@@ -24,4 +24,13 @@ dist-ssr
 *.sw?
 
 .env
+
+Kitab at Tawheed_251012_121524.txt
+generateTafsirData.js
+Riyard Us Saliheen_251016_201636(2).txt
+generateRSSData.js
+generateKATData.js
+convertToJson.js
+og.txt
+og2.txt
 audio/

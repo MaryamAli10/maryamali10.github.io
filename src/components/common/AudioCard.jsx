@@ -49,7 +49,7 @@ function PauseBtn({ onClick }) {
 }
 
 // break-up into 2 components
-function AudioCard({ title, audioSrc }) {
+function AudioCard({ src, title, size, part, date }) {
   const audioRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
@@ -125,15 +125,15 @@ function AudioCard({ title, audioSrc }) {
         <CardDescription className="flex flex-row gap-2 sm:gap-4 text-sm justify-center">
           <span className="flex flex-row">
             <Calendar size={16} strokeWidth={1.75} />
-            Jan-1st-2025
+            {date}
           </span>
           <span className="flex flex-row">
             <ListOrdered size={16} strokeWidth={1.75} />
-            1.1
+            {Array.isArray(part) ? part.join(",") : part}
           </span>
           <span className="flex flex-row">
             <FileMusic size={16} strokeWidth={1.75} />
-            15MB
+            {size}
           </span>
         </CardDescription>
         <CardTitle className="text-neutral-800 font-[EB-Garmond] text-xl font-medium">
@@ -141,7 +141,7 @@ function AudioCard({ title, audioSrc }) {
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <audio ref={audioRef} src={audioSrc} preload="metadata" />
+        <audio ref={audioRef} src={src} preload="metadata" />
         <div className="flex flex-row gap-2 items-center">
           <span>{formatTime(currentTime)}</span>
           <input
@@ -184,7 +184,7 @@ function AudioCard({ title, audioSrc }) {
             </button>
           </div>
           <button className="justify-self-end">
-            <a href={audioSrc} target="_blank" download>
+            <a href={src} target="_blank" download>
               <Download strokeWidth={3} size={20} className="neutral-800" />
             </a>
           </button>

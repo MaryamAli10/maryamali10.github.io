@@ -23,12 +23,6 @@ for (const obj of objectList) {
 }
 console.log("Chapter Index:" + chapterIndex);
 
-// let formatedTitle = `Surah ${title} - part ${i}`;
-// arry.push(
-//   <li key={nanoid()} className="my-6 mx-2">
-//     <AudioCard key={nanoid()} title={formatedTitle} />
-//   </li>
-
 function Content({ chapterIndex, audioObjects, titles }) {
   const sortedObjects = chapterIndex.reduce(
     (acc, curr) => ({ ...acc, [curr.toString()]: [] }),
@@ -40,14 +34,18 @@ function Content({ chapterIndex, audioObjects, titles }) {
     sortedObjects[part[0]].push(obj);
   }
 
-  const content = chapterIndex.map((i) => {
+  const chapterIndexAscending = chapterIndex.slice().reverse();
+  const content = chapterIndexAscending.map((i) => {
+    const sortedObjectsAscending = sortedObjects[i.toString()]
+      .slice()
+      .reverse();
     const results = (
       <AccordionItem key={nanoid()} value={`chapter${i}`}>
         <AccordionTrigger className="text-lg font-normal">
-          {`${i}. ${titles[i]}`}
+          {`Chapter ${i}- ${titles[i]}`}
         </AccordionTrigger>
         <AccordionContent>
-          {generateAudioCards(sortedObjects[i.toString()], titles, 3)}
+          {generateAudioCards(sortedObjectsAscending, null, 3)}
         </AccordionContent>
       </AccordionItem>
     );

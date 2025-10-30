@@ -6,77 +6,46 @@ function formatSize(size) {
   return `${sizeMB}MB`;
 }
 
-function splitFilenameTafsir(fileName) {
-  let [part, verse, date] = fileName.split(",");
-  let parts = part.split(".");
-  let i = parseInt(parts[0]) - 1;
-
-  if (fileName.includes("&")) {
-    part = part.split("&");
-    verse = verse.split("&");
-    i = [];
-    for (let p of part) {
-      let t = p.split(".");
-      i.push(parseInt(t[0]));
-    }
-  }
-
-  return [i, verse, part, date];
-}
-
-function splitFilenameRSS(filename) {
-  let [part, h, date] = filename.split(",");
-  let i = part.split(".");
-  return [i[0], part, h, date];
-}
-
-function splitFilenameKAT(filename) {
-  let [part, date] = filename.split(",");
-  let i = part.split(".");
-  return [i[0], part, date];
-}
-
 function formatDate(isoDate) {
   const date = new Date(isoDate);
   const d = date.toDateString().split(" ");
   return `${d[1]}-${d[2]}-${d[3]}`;
 }
 
-function generateAudioCard(audioFiles, titles, option) {
+function generateAudioCards(audioFiles, titles, option) {
   const cards = audioFiles.map((audio) => {
     let title = "Unknown Title";
-    let part = "0.0";
 
-    if (option === 1) {
-      let [i, verse, part, datef] = splitFilenameTafsir(audio.fileName);
-      if (Array.isArray(i)) {
-        title = `Surah ${titles[i[0]]}- ayahs ${verse[0]}, Surah ${
-          titles[i[1]]
-        }- ayahs ${verse[1]}`;
-      } else {
-        title = `Surah ${titles[i]}- ayahs ${verse}`;
+    if (titles) {
+      if (option === 1) {
+        title = audio.title;
+      } else if (option === 2) {
+        let p = audio.part.split(".");
+        let i = parseInt(p[0]);
+        let h = audio.hadith;
+        title = `Riyad-us-Saliheen Chapter${i}- ${title[i]}, Hadith${
+          h.includes("-") ? "s" : ""
+        } ${h}`;
+      } else if (option === 3) {
+        let [p1, p2] = audio.part.split(".");
+        let i = parseInt(p1);
+        title = `Kitab-at-Tawhid Chapter ${i}- ${titles[i]}- part${p2}`;
       }
-    } else if (option === 2) {
-      let [i, part, h, date] = splitFilenameRSS(audio.fileName);
-      //i = part.split(".");
-      title = `Chapter ${i}- Hadith${h.includes("-") ? "s" : ""} ${h}`;
-    } else if (option === 3) {
-      let [i, part, date] = splitFilenameKAT(audio.fileName);
-      let p = part.split(".");
-      title = `Chapter ${i}- part${p[1]}`;
+    } else {
+      title = audio.title;
     }
 
     const size = formatSize(audio.size);
-    const atime = formatDate(audio.date);
+    const date = formatDate(audio.date);
     const src = audio.src;
     return (
       <li key={nanoid()} className="my-6 mx-2">
         <AudioCard
           src={src}
           title={title}
-          part={part}
+          part={audio.part}
           size={size}
-          date={atime}
+          date={date}
           key={nanoid()}
         />
       </li>
@@ -85,4 +54,46 @@ function generateAudioCard(audioFiles, titles, option) {
 
   return cards;
 }
-export default generateAudioCard;
+
+function generateAudioCard(audio, titles, option) {
+  let title = "Unknown Title";
+
+  if (titles) {
+    if (option === 1) {
+      title = audio.title;
+    } else if (option === 2) {
+      let p = audio.part.split(".");
+      let i = parseInt(p[0]);
+      let h = audio.hadith;
+      title = `Riyad-us-Saliheen Chapter ${i}- ${titles[i]}, Hadith${
+        h.includes("-") ? "s" : ""
+      } ${h}`;
+    } else if (option === 3) {
+      let [p1, p2] = audio.part.split(".");
+      let i = parseInt(p1);
+      title = `Kitab-at-Tawhid Chapter ${i}- ${titles[i]}- part${p2}`;
+    }
+  } else {
+    title = audio.title;
+  }
+
+  const size = formatSize(audio.size);
+  const date = formatDate(audio.date);
+  const src = audio.src;
+
+  return (
+    <li key={nanoid()} className="my-6 mx-2">
+      <AudioCard
+        src={src}
+        title={title}
+        part={audio.part}
+        size={size}
+        date={date}
+        key={nanoid()}
+      />
+    </li>
+  );
+}
+
+export default generateAudioCards;
+export { generateAudioCard };

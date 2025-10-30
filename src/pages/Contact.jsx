@@ -40,17 +40,29 @@ function Contact() {
             style={{ listStyleType: "disc" }}
           >
             <li>
-              <a className="underline hover:text-purple-600" href="" download>
+              <a
+                className="underline hover:text-purple-600"
+                href="/en_Riyad_us_Saliheen_231008_184441.pdf"
+                download="riyad-us-saliheen"
+              >
                 Riyad-Us-Saliheen
               </a>
             </li>
             <li>
-              <a className=" underline hover:text-purple-600" href="">
+              <a
+                className=" underline hover:text-purple-600"
+                href="/كتاب التوحيد .pdf"
+                download
+              >
                 Kitab-At-Tawhid (arabic ver)
               </a>
             </li>
             <li>
-              <a className="underline hover:text-purple-600" href="">
+              <a
+                className="underline hover:text-purple-600"
+                href="/kitab-at-tawhid.pdf"
+                download
+              >
                 Kitab-At-Tawhid (english ver)
               </a>
             </li>

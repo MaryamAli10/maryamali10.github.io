@@ -40,14 +40,18 @@ function Content({ chapterIndex, audioObjects, titles }) {
     sortedObjects[part[0]].push(obj);
   }
 
-  const content = chapterIndex.map((i) => {
+  const chapterIndexAscending = chapterIndex.slice().reverse();
+  const content = chapterIndexAscending.map((i) => {
+    const sortedObjectsAscending = sortedObjects[i.toString()]
+      .slice()
+      .reverse();
     const results = (
       <AccordionItem key={nanoid()} value={`chapter${i}`}>
         <AccordionTrigger className="text-lg font-normal">
-          {`${i}. Chapter ${titles[i]}`}
+          {`Chapter ${i}- ${titles[i]}`}
         </AccordionTrigger>
         <AccordionContent>
-          {generateAudioCards(sortedObjects[i.toString()], titles, 2)}
+          {generateAudioCards(sortedObjectsAscending, null, 2)}
         </AccordionContent>
       </AccordionItem>
     );

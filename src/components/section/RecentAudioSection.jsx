@@ -1,13 +1,34 @@
-import AudioCard from "@/components/common/AudioCard";
+import { useState } from "react";
+import { generateAudioCard } from "@/components/common/generateAudioCards.jsx";
+import tafsirObjects from "@/data/tafsirData.json";
+import RSSobjects from "@/data/RSSData.json";
+import KATobjects from "@/data/KATData.json";
+import tafsirTitle from "@/data/chapterNamesTafsir.json";
+import RSStitle from "@/data/chapterNamesRSS.json";
+import KATtitle from "@/data/chapterNamesKAT.json";
+import ScrollButton from "@common/ScrollButton";
+
+function descendingPart(a, b) {
+  a = parseFloat(a.part);
+  b = parseFloat(b.part);
+  return b - a;
+}
+const sortedTafsirObjects = tafsirObjects.sort(descendingPart);
+const sortedRSSObjects = RSSobjects.sort(descendingPart);
+const sortedKATObjects = KATobjects.sort(descendingPart);
 
 function RecentAudioSection() {
-  function handleLoadMore() {
-    //to be added
-  }
+  const [noOfCards, setNoOfCards] = useState(3);
 
-  const audioCardList = titles.map((title, index) => (
-    <AudioCard key={index} title={title} audioSrc={audio} />
-  ));
+  function handleLoadMore() {
+    setNoOfCards(noOfCards + 4);
+  }
+  const audioCardList = [];
+  for (let i = 0; i < noOfCards; i++) {
+    audioCardList.push(generateAudioCard(sortedTafsirObjects[i], null, 1));
+    audioCardList.push(generateAudioCard(sortedRSSObjects[i], RSStitle, 2));
+    audioCardList.push(generateAudioCard(sortedKATObjects[i], KATtitle, 3));
+  }
 
   return (
     <div className="bg-neutral-800 text-neutral-50 w-full pb-8 px-6 lg:px-30 2xl:px-60">
@@ -15,7 +36,7 @@ function RecentAudioSection() {
         Latest Classes
       </h1>
       <div className="flex flex-col gap-4 " id="latest-classes">
-        {audioCardList}
+        <ul className="list-none">{audioCardList}</ul>
         <button
           className="bg-neutral-700 text-neutral-50 rounded w-auto px-4 py-2 mx-auto hover:bg-neutral-600 transition"
           onClick={handleLoadMore}
@@ -23,17 +44,9 @@ function RecentAudioSection() {
           Load More
         </button>
       </div>
+      <ScrollButton />
     </div>
   );
 }
-
-let audio = "/WhatsApp Audio 2025-01-10 at 7.28.55 PM.aac";
-
-let titles = [
-  "Khuthbah- Don't be unmindful where as everything you do is paid attention to ",
-  "Kitab-at-Tawhid, Chapter 21- The chapter of what is narrated that, exceeding proper limits in the Graves of the righteous causes it to be something that is worshipped other than Allah ",
-  "The Book of Prohibited Actions, Chapter 302, pt.2- Hadiths 1659-1660 ",
-  "Surah Fatir ayahs 19-30 ",
-];
 
 export default RecentAudioSection;

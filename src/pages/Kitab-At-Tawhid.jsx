@@ -21,7 +21,6 @@ for (const obj of objectList) {
     chapterIndex.push(part[0]);
   }
 }
-console.log("Chapter Index:" + chapterIndex);
 
 function Content({ chapterIndex, audioObjects, titles }) {
   const sortedObjects = chapterIndex.reduce(

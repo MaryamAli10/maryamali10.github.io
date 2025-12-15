@@ -52,37 +52,60 @@ function Navbar({ setPage }) {
   return (
     <>
       {isOpen && sideBar}
-      <div className="sticky top-0  w-full bg-neutral-900 border-b border-neutral-800 ">
+      <div className="fixed top-0  w-full bg-neutral-900 border-b border-neutral-800 ">
         <div
           className="container mx-auto justify-end
        flex items-center justify-between p-4"
         >
-          <nav className="hidden md:flex space-x-4 text-neutral-50">
+          <nav className="hidden md:flex space-x-4 text-neutral-50 max-w-1100">
             <ul className="flex space-x-4">
               <li>
-                <a href="#" className="text-neutral-50 hover:text-violet-600">
+                <button
+                  className="text-neutral-50 hover:text-violet-600"
+                  onClick={() => handleClick("home")}
+                >
                   Home
-                </a>
+                </button>
               </li>
               <li>
-                <a href="#" className="text-neutral-50 hover:text-violet-600">
+                <button
+                  className="text-neutral-50 hover:text-violet-600"
+                  onClick={() => handleClick("tafsir")}
+                >
                   Tafsir
-                </a>
+                </button>
               </li>
               <li>
-                <a href="#" className="text-neutral-50 hover:text-violet-600">
+                <button
+                  className="text-neutral-50 hover:text-violet-600"
+                  onClick={() => handleClick("riyadUsSaliheen")}
+                >
                   Riyad-Us-Saliheen
-                </a>
+                </button>
               </li>
               <li>
-                <a href="#" className="text-neutral-50 hover:text-violet-600">
+                <button
+                  className="text-neutral-50 hover:text-violet-600"
+                  onClick={() => handleClick("kitabAtTawhid")}
+                >
                   Kitab-At-Tawhid
-                </a>
+                </button>
               </li>
               <li>
-                <a href="#" className="text-neutral-50 hover:text-violet-600">
+                <button
+                  className="text-neutral-50 hover:text-violet-600"
+                  onClick={() => handleClick("khutbah")}
+                >
+                  Khutbah
+                </button>
+              </li>
+              <li>
+                <button
+                  className="text-neutral-50 hover:text-violet-600"
+                  onClick={() => handleClick("contact")}
+                >
                   Contact
-                </a>
+                </button>
               </li>
             </ul>
           </nav>

@@ -18,14 +18,17 @@ function Title({ children }) {
 
 function Header({ title, text }) {
   return (
-    <div className=" w-full h-full bg-neutral-900 pb-5 ">
-      <div className="flex flex-col gap-4 justify-center text-center text-neutral-50  py-20 p-5">
-        {title && <Title>{title}</Title>}
-        {text && <Text>{text}</Text>}
-      </div>
+    <>
+      <div className="h-13 bg-netural-900"></div>
+      <div className=" w-full h-full bg-neutral-900 pb-5 ">
+        <div className="flex flex-col gap-4 justify-center text-center text-neutral-50  py-20 p-5">
+          {title && <Title>{title}</Title>}
+          {text && <Text>{text}</Text>}
+        </div>
 
-      {/* breadcrumbs */}
-    </div>
+        {/* breadcrumbs */}
+      </div>
+    </>
   );
 }
 

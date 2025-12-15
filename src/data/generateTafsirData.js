@@ -1,7 +1,6 @@
 import fs from "fs/promises";
 import path from "path";
 import fss from "fs";
-import { ChevronsUp } from "lucide-react";
 
 const titlep = path.resolve("src/data/chapterNamesTafsir.json");
 const dirPath = "/home/maryam10/husnaa-gardens-website/public/audio/Tafsir";

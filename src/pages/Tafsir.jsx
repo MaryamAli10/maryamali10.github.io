@@ -32,7 +32,7 @@ function AscendingPart(a, b) {
 function Content({ chapterIndex, audioObjects, titles }) {
   const sortedObjects = chapterIndex.reduce(
     (acc, curr) => ({ ...acc, [curr.toString()]: [] }),
-    {}
+    {},
   );
   for (const obj of audioObjects) {
     const part = obj.part.split(".");

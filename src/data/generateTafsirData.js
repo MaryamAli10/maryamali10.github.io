@@ -2,8 +2,10 @@ import fs from "fs/promises";
 import path from "path";
 import fss from "fs";
 
+///home/maryam10/husnaa-gardens-website/public/audio/Tafsir
 const titlep = path.resolve("src/data/chapterNamesTafsir.json");
-const dirPath = "/home/maryam10/husnaa-gardens-website/public/audio/Tafsir";
+const dirPath = path.resolve("public/audio/Tafsir");
+console.log(dirPath);
 
 const titlesJson = fss.readFileSync(titlep, "utf-8");
 const titles = JSON.parse(titlesJson);
@@ -33,9 +35,12 @@ function splitFilenameTafsir(fileName) {
 }
 
 function formatDate(date) {
-  const [d, m, y] = date.split("-");
-
-  return new Date(y, m, d);
+  if (date !== undefined) {
+    const [d, m, y] = date.split("-");
+    return new Date(y, m, d);
+  } else {
+    return "unknown";
+  }
 }
 
 async function createObject(dirPath, titles) {

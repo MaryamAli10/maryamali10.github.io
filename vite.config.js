@@ -18,6 +18,7 @@ export default defineConfig({
     alias: {
       "@": path.resolve(__dirname, "./src"),
       "@common": path.resolve(__dirname, "./src/components/common"),
+      "@data": path.resolve(__dirname, "./src/commnon/data"),
     },
   },
 });

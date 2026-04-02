@@ -26,7 +26,7 @@ function Contact() {
               <MapPinHouse className="inline" /> Location
             </h2>
             <p className="text-neutral-400">
-              123 Main St, Anytown, Trinidad & Tobago
+              Husnaa Gardens Masjid, La Cuesa Rd, Freeport
             </p>
           </span>
         </div>
